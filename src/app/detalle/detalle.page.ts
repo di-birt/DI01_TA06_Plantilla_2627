@@ -15,8 +15,11 @@ import { Elemento } from '../models/elemento.model';
   imports: [
     IonHeader, IonToolbar, IonTitle, IonContent,
     IonButtons, IonBackButton, IonList, IonItem, IonLabel,
-    // Pipes: TitleCasePipe capitaliza la primera letra de cada palabra; UpperCasePipe convierte a mayúsculas
-    TitleCasePipe, UpperCasePipe
+    /* TODO TA06 - Pipes: 
+     * TitleCasePipe capitaliza la primera letra de cada palabra; 
+     * UpperCasePipe convierte a mayúsculas
+     * */
+
   ],
 })
 export class DetallePage implements OnInit {

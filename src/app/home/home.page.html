@@ -30,32 +30,17 @@
     </ion-card-header>
 
     <ion-card-content>
-      <form [formGroup]="formularioDinamico" (ngSubmit)="onSubmitDinamico()">
+      <form [formGroup]="formularioDinamico" (ngSubmit)="agregarElemento()">
 
         <!-- TODO TA06: @for recorre "campos" y genera un ion-item por cada entrada.
-             track campo.name garantiza la eficiencia en el renderizado. -->
-        @for (campo of campos; track campo.name) {
-          <ion-item>
-            <ion-label position="stacked">{{ campo.label }}</ion-label>
-            <ion-input
-              [formControlName]="campo.name"
-              [type]="campo.type"
-              [placeholder]="campo.label">
-            </ion-input>
-          </ion-item>
+          -- El track campo.name garantiza la eficiencia en el renderizado. 
+          -- Añadir ion-iteme, ion-label y ion-input
+          -->
 
-          <!-- Errores genéricos para cada campo: sirven para cualquier campo del array -->
-          @if (formularioDinamico.get(campo.name)?.invalid && formularioDinamico.get(campo.name)?.touched) {
-            @if (formularioDinamico.get(campo.name)?.errors?.['required']) {
-              <ion-note color="danger" class="error-obligatorio">{{ campo.label }} es obligatorio.</ion-note>
-            }
-            @if (formularioDinamico.get(campo.name)?.errors?.['minlength']) {
-              <ion-note color="danger" class="error-obligatorio">
-                Mínimo {{ formularioDinamico.get(campo.name)?.errors?.['minlength']?.requiredLength }} caracteres.
-              </ion-note>
-            }
-          }
-        }
+          <!-- Errores genéricos para cada campo: sirven para cualquier campo del array. 
+            -- Mediante @if habrá que comprobar si que campo.name no es válido y está "touched"
+            -- Si cumple esta condición, gestionar los errores "required" y "minlenght" y mostrarlos en un ion-note
+            -->
 
         <ion-button expand="block" type="submit" class="ion-margin-top">
           Añadir elemento
@@ -73,32 +58,40 @@
        (ionInput) para actualizarlo con busqueda.set(). Cada vez que cambia,
        el computed "elementosFiltrados" se recalcula automáticamente. -->
   <ion-item>
-    <ion-input [value]="busqueda()" (ionInput)="busqueda.set($event.detail.value ?? '')" placeholder="Buscar elemento..."></ion-input>
+    <ion-input placeholder="Buscar elemento..."></ion-input>
   </ion-item>
 
   <!-- TODO TA06 – Lista generada desde un computed signal
        "elementosFiltrados" es computed<Elemento[]>(): se recalcula solo cuando
-       cambia "busqueda" o "elementos". El @for itera sobre su valor (llamada como función)
-       y usa track elemento.id para que Angular reutilice nodos del DOM eficientemente. -->
+       cambia "busqueda" o "elementos". 
+    -- El @for itera sobre su valor (llamada como función)
+       y usa track elemento.id para que Angular reutilice nodos del DOM eficientemente. 
+    -- Dentro de ion-item, mediante (click) llamaremos al método verDetalle
+    -->
   <ion-list>
-    @for (elemento of elementosFiltrados(); track elemento.id) {
+
       <!-- TODO TA06 – Pipes declarativos en el template:
-           | titlecase  →  capitaliza la primera letra de cada palabra (Angular CommonModule)
-           | slice:0:60 →  recorta la descripción a 60 caracteres para mostrar un resumen -->
-      <ion-item button="true" (click)="verDetalle(elemento)">
+        -- ion-item button="true" convierte una fila de lista en área clicable completa, mientras que ion-button es un botón de acción puntual.
+      -->     
+           
+      <ion-item button="true">
         <ion-label>
-          <h2>{{ elemento.nombre | titlecase }}</h2>
-          <p>{{ elemento.descripcion | slice:0:60 }}{{ elemento.descripcion.length > 60 ? '...' : '' }}</p>
+          <!-- | titlecase  →  capitaliza la primera letra de cada palabra (Angular CommonModule) -->
+          <h2></h2>
+          <!-- | slice:0:60 →  recorta la descripción a 60 caracteres para mostrar un resumen 
+            -- Después añadimo {{ elemento.descripcion.length > 60 ? '...' : '' }} para añadir ... si la descripción tiene más de 60 caracteres
+          -->
+          <p></p>
         </ion-label>
       </ion-item>
-    }
+
   </ion-list>
 
   <!-- TODO TA06 – Botón deshabilitado con computed signal
        "hayElementos" es computed<boolean>(): devuelve true si el array de elementos
        tiene al menos un elemento. [disabled]="!hayElementos()" enlaza el estado del
        botón al signal de forma reactiva, sin necesidad de variables booleanas extra. -->
-  <ion-button expand="block" [disabled]="!hayElementos()" (click)="mostrarToast()">
+  <ion-button expand="block" (click)="mostrarToast()">
     Mostrar mensaje
   </ion-button>
 

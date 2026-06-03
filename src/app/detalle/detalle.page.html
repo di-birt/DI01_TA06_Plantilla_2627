@@ -9,8 +9,6 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/home"></ion-back-button>
     </ion-buttons>
-    <!-- TODO TA06 – Con signal, leemos el valor llamándolo como función: elementoDetalle().
-         El operador ?. (optional chaining) evita errores si el signal aún es null. -->
     <ion-title>{{ elementoDetalle()?.nombre }}</ion-title>
 
   </ion-toolbar>
@@ -18,10 +16,6 @@
 
 <ion-content [fullscreen]="true">
 
-  <!-- TODO TA06 – @if con signal
-       "elementoDetalle" es un signal<Elemento | null>. Se evalúa llamándolo como función.
-       Si tiene valor (no es null), Angular renderiza el bloque principal;
-       si no, muestra el bloque @else. Esto evita errores de acceso a null en el template. -->
   @if (elementoDetalle()) {
     <ion-list>
       <ion-item>
@@ -30,13 +24,13 @@
                | titlecase  →  capitaliza la primera letra de cada palabra
                elementoDetalle()! usa el operador non-null assertion (!) porque
                dentro del @if sabemos que el signal tiene valor. -->
-          <h2>{{ elementoDetalle()!.nombre | titlecase }}</h2>
+          <h2>{{ elementoDetalle()!.nombre}}</h2>
           <p>{{ elementoDetalle()!.descripcion }}</p>
         </ion-label>
       </ion-item>
       <ion-item>
         <!-- TODO TA06 – | uppercase convierte el texto a mayúsculas -->
-        <ion-label>Categoría: {{ elementoDetalle()!.categoria | uppercase }}</ion-label>
+        <ion-label>Categoría: {{ elementoDetalle()!.categoria}}</ion-label>
       </ion-item>
     </ion-list>
   } @else {
